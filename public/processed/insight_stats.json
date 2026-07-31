@@ -1,0 +1,109 @@
+{
+  "totalKills": 2418,
+  "totalStorm": 39,
+  "totalLoot": 12885,
+  "mapCounts": {
+    "AmbroseValley": 566,
+    "GrandRift": 59,
+    "Lockdown": 171
+  },
+  "edgeStorm": 9,
+  "centerStorm": 30,
+  "edgeStormPct": 23.1,
+  "topKillHotspots": [
+    {
+      "map": "AmbroseValley",
+      "cellX": 8,
+      "cellY": 8,
+      "count": 143
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 6,
+      "cellY": 7,
+      "count": 136
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 6,
+      "cellY": 8,
+      "count": 109
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 8,
+      "cellY": 12,
+      "count": 88
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 4,
+      "cellY": 8,
+      "count": 81
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 5,
+      "cellY": 8,
+      "count": 69
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 9,
+      "cellY": 6,
+      "count": 60
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 4,
+      "cellY": 7,
+      "count": 59
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 7,
+      "cellY": 8,
+      "count": 58
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 8,
+      "cellY": 9,
+      "count": 58
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 3,
+      "cellY": 13,
+      "count": 56
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 5,
+      "cellY": 6,
+      "count": 55
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 6,
+      "cellY": 9,
+      "count": 53
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 7,
+      "cellY": 7,
+      "count": 53
+    },
+    {
+      "map": "AmbroseValley",
+      "cellX": 7,
+      "cellY": 3,
+      "count": 48
+    }
+  ],
+  "trafficOccupiedCells": 1152,
+  "trafficPossibleCells": 3072,
+  "trafficSparseCells": 92,
+  "trafficMedian": 28
+}
