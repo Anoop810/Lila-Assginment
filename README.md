@@ -4,6 +4,8 @@ Interactive web tool for Level Designers to explore LILA BLACK player movement, 
 
 **Live demo:** _add Vercel URL after deploy_
 
+![Demo](docs/demo.gif)
+
 ---
 
 ## Features

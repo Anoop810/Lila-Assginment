@@ -1,45 +1,45 @@
 const INSIGHTS = [
   {
-    id: 'loot-magnet',
-    title: 'Loot pulls fights',
-    hook: '90.6% of kills happen near loot in the same match.',
+    id: 'combat-hotspots',
+    title: 'Combat clusters on POIs',
+    hook: '31% of Ambrose kills sit in just 5 hotspot cells; top 10% of cells hold ~41%.',
     why: 'Players converge on the same reward pockets, so combat is a consequence of economy placement — not random map noise.',
     evidence: [
-      '2,190 / 2,418 kills within ~80px of a loot event',
-      'Top Ambrose cell (8,8): 143 kills + 420 loot',
-      'Deaths skew late (69%) after early/mid looting',
+      'Hottest cell Ambrose (8,8): 143 kills + 420 loot',
+      '90.6% of kills within ~80px of a loot event',
+      'Traffic heatmaps overlap the same kill pockets',
     ],
     action:
-      'Tune contested POIs by splitting loot or adding a second approach — then re-check Kills + Loot layers.',
+      'Redistribute high-tier loot / add secondary objectives — then re-check Kills + Loot layers.',
     tryInTool: 'Ambrose → Heatmap: Kills → enable Loot → scrub a long match',
   },
   {
     id: 'storm-endgame',
-    title: 'Storm is an endgame filter',
-    hook: 'All 39 storm deaths occur in the final third of the match.',
+    title: 'Storm hits late only',
+    hook: '100% of storm deaths (39) occur in the final third of the match.',
     why: 'Storm only reaches players who already survived ~2× longer than average. Combat ends most lobbies before storm matters.',
     evidence: [
-      '39 storm deaths in 796 matches (~5%)',
-      '100% of storm kills in late phase',
+      'Median storm death at ~99.9% of match duration',
       'Avg duration with storm death ~752s vs ~391s without',
+      '77% of storm deaths toward map center vs 23% edge',
     ],
     action:
       'Decide if storm should force mid-game rotation or only sweep endgame — timing/damage targets differ.',
     tryInTool: 'Events: Storm only → open a long match → jump timeline to the end',
   },
   {
-    id: 'cold-zones',
-    title: 'Maps play as corridors',
-    hook: 'Only 32–43% of each map grid sees any traffic.',
-    why: 'Learned loot/extract routes concentrate movement. Empty space has no job in the loop, so it stays empty.',
+    id: 'human-vs-bot',
+    title: 'Humans and bots diverge',
+    hook: 'Humans path farther (~905px vs ~727px) and only 7 of the top 20 path cells overlap bots.',
+    why: 'Bots patrol different pockets than where humans loot and fight, so bot density under-serves real engagement zones.',
     evidence: [
-      'Ambrose: 43% cells used; busiest 10% carry 40% of traffic',
-      'Lockdown: only 32% of cells touched',
-      'Same hot corridors host loot + kills (Insight 1)',
+      '2,235 human-attributed kills vs 183 bot-attributed',
+      'Humans peak at Ambrose (8,8); bots at (4,10)/(5,9)',
+      'Toggle Humans/Bots filters to compare trails live',
     ],
     action:
-      'Move a slice of low-tier loot into cold flanks; success = higher occupied-cell % without spiking old hot POIs.',
-    tryInTool: 'Heatmap: Traffic at full duration on each map',
+      'Retarget bot patrols toward human traffic and cold flanks; raise randomness and spawn density from heatmaps.',
+    tryInTool: 'Toggle Humans/Bots → Heatmap: Traffic on Ambrose Valley',
   },
 ] as const;
 
