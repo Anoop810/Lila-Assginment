@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import {
   CircleMarker,
   ImageOverlay,
@@ -68,8 +68,16 @@ function FitBounds() {
   return null;
 }
 
-function pathUntil(player: Player, t: number) {
-  return player.path.filter((p) => p.t <= t);
+/** Exclusive end index of path samples with t <= currentTime. */
+function pathEndIndex(path: Player['path'], t: number) {
+  let lo = 0;
+  let hi = path.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (path[mid].t <= t) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo;
 }
 
 function positionAt(player: Player, t: number): LatLngExpression | null {
@@ -85,6 +93,63 @@ function positionAt(player: Player, t: number): LatLngExpression | null {
   const u = (t - a.t) / (b.t - a.t);
   return [a.py + (b.py - a.py) * u, a.px + (b.px - a.px) * u];
 }
+
+interface TrailProps {
+  player: Player;
+  currentTime: number;
+  active: boolean;
+  onHoverPlayer: (id: string | null) => void;
+}
+
+/** Memoized trail — only pushes new latlngs when the sample count changes. */
+const PlayerTrail = memo(function PlayerTrail({
+  player,
+  currentTime,
+  active,
+  onHoverPlayer,
+}: TrailProps) {
+  const endIndex = pathEndIndex(player.path, currentTime);
+
+  const positions = useMemo(() => {
+    if (endIndex < 2) return null;
+    return player.path
+      .slice(0, endIndex)
+      .map((p) => [p.py, p.px] as LatLngExpression);
+  }, [player.path, endIndex]);
+
+  const pathOptions = useMemo(
+    () => ({
+      color: player.isBot ? '#3dd68c' : '#52a9ff',
+      weight: active ? 4 : 2,
+      opacity: active ? 0.95 : 0.55,
+      lineCap: 'round' as const,
+      lineJoin: 'round' as const,
+    }),
+    [player.isBot, active],
+  );
+
+  const eventHandlers = useMemo(
+    () => ({
+      mouseover: () => onHoverPlayer(player.id),
+      mouseout: () => onHoverPlayer(null),
+    }),
+    [onHoverPlayer, player.id],
+  );
+
+  if (!positions) return null;
+
+  return (
+    <Polyline positions={positions} pathOptions={pathOptions} eventHandlers={eventHandlers}>
+      <Popup>
+        <strong>{player.isBot ? 'Bot' : 'Human'}</strong>
+        <br />
+        {shortId(player.id, 16)}
+        <br />
+        Kills {player.kills} · Loot {player.loot} · Deaths {player.deaths}
+      </Popup>
+    </Polyline>
+  );
+});
 
 function matchesQuery(player: Player, query: string) {
   if (!query.trim()) return true;
@@ -159,6 +224,7 @@ export function MapViewer({
         minZoom={-2}
         maxZoom={4}
         scrollWheelZoom
+        preferCanvas
         className="leaflet-root"
         maxBounds={BOUNDS}
         maxBoundsViscosity={1}
@@ -169,36 +235,15 @@ export function MapViewer({
         {heatmap !== 'none' && <HeatmapLayer points={heatPoints} />}
 
         {showTrails &&
-          visiblePlayers.map((player) => {
-            const pts = pathUntil(player, currentTime);
-            if (pts.length < 2) return null;
-            const latlngs = pts.map((p) => [p.py, p.px] as LatLngExpression);
-            const color = player.isBot ? '#3dd68c' : '#52a9ff';
-            const active = hoveredPlayerId === player.id;
-            return (
-              <Polyline
-                key={`trail-${player.id}`}
-                positions={latlngs}
-                pathOptions={{
-                  color,
-                  weight: active ? 4 : 2,
-                  opacity: active ? 0.95 : 0.55,
-                }}
-                eventHandlers={{
-                  mouseover: () => onHoverPlayer(player.id),
-                  mouseout: () => onHoverPlayer(null),
-                }}
-              >
-                <Popup>
-                  <strong>{player.isBot ? 'Bot' : 'Human'}</strong>
-                  <br />
-                  {shortId(player.id, 16)}
-                  <br />
-                  Kills {player.kills} · Loot {player.loot} · Deaths {player.deaths}
-                </Popup>
-              </Polyline>
-            );
-          })}
+          visiblePlayers.map((player) => (
+            <PlayerTrail
+              key={`trail-${player.id}`}
+              player={player}
+              currentTime={currentTime}
+              active={hoveredPlayerId === player.id}
+              onHoverPlayer={onHoverPlayer}
+            />
+          ))}
 
         {visiblePlayers.map((player) => {
           const pos = positionAt(player, currentTime);
