@@ -5,7 +5,7 @@ Interactive web tool for Level Designers to explore LILA BLACK player movement, 
 **Live demo:** https://lila-assginment.vercel.app/
 
 <p align="center">
-  <img src="docs/demo.png" alt="LILA Player Journey Viewer" width="100%" />
+  <img src="docs/demo.gif" alt="LILA Player Journey Viewer" width="100%" />
 </p>
 
 ---
