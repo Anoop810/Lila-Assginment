@@ -4,7 +4,7 @@ Interactive web tool for Level Designers to explore LILA BLACK player movement, 
 
 **Live demo:** https://vercel.com/anoop810s-projects/lila-assginment
 
-![Demo](docs/demo.gif)
+![LILA Player Journey Viewer](docs/demo.png)
 
 ---
 
