@@ -2,7 +2,7 @@
 
 Interactive web tool for Level Designers to explore LILA BLACK player movement, combat, loot, and storm deaths on production minimaps.
 
-**Live demo:** https://vercel.com/anoop810s-projects/lila-assginment
+**Live demo:**https://lila-assginment.vercel.app/
 
 ![LILA Player Journey Viewer](docs/demo.png)
 
